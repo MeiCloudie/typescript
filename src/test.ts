@@ -12,67 +12,126 @@ interface Admin {
   role: string
 }
 
-type PowerUser = Omit<User, "type"> &
-  Omit<Admin, "type"> & {
-    type: "powerUser"
-  }
+type Person = User | Admin
 
-export type Person = User | Admin | PowerUser
+const admins: Admin[] = [
+  { type: "admin", name: "Jane Doe", age: 32, role: "Administrator" },
+  { type: "admin", name: "Bruce Willis", age: 64, role: "World saver" },
+]
 
-export const persons: Person[] = [
+const users: User[] = [
   {
     type: "user",
     name: "Max Mustermann",
     age: 25,
     occupation: "Chimney sweep",
   },
-  { type: "admin", name: "Jane Doe", age: 32, role: "Administrator" },
   { type: "user", name: "Kate Müller", age: 23, occupation: "Astronaut" },
-  { type: "admin", name: "Bruce Willis", age: 64, role: "World saver" },
-  {
-    type: "powerUser",
-    name: "Nikki Stone",
-    age: 45,
-    role: "Moderator",
-    occupation: "Cat groomer",
-  },
 ]
 
-function isAdmin(person: Person): person is Admin {
-  return person.type === "admin"
+export type ApiResponse<T> =
+  | { status: "success"; data: T }
+  | { status: "error"; error: string }
+
+export function requestAdmins(
+  callback: (response: ApiResponse<Admin[]>) => void
+) {
+  callback({
+    status: "success",
+    data: admins,
+  })
 }
 
-function isUser(person: Person): person is User {
-  return person.type === "user"
+export function requestUsers(
+  callback: (response: ApiResponse<User[]>) => void
+) {
+  callback({
+    status: "success",
+    data: users,
+  })
 }
 
-function isPowerUser(person: Person): person is PowerUser {
-  return person.type === "powerUser"
+export function requestCurrentServerTime(
+  callback: (response: ApiResponse<number>) => void
+) {
+  callback({
+    status: "success",
+    data: Date.now(),
+  })
 }
 
-export function logPerson(person: Person) {
-  let additionalInformation: string = ""
-  if (isAdmin(person)) {
-    additionalInformation = person.role
+export function requestCoffeeMachineQueueLength(
+  callback: (response: ApiResponse<number>) => void
+) {
+  callback({
+    status: "error",
+    error: "Numeric value has exceeded Number.MAX_SAFE_INTEGER.",
+  })
+}
+
+function logPerson(person: Person) {
+  console.log(
+    ` - ${person.name}, ${person.age}, ${
+      person.type === "admin" ? person.role : person.occupation
+    }`
+  )
+}
+
+function startTheApp(callback: (error: Error | null) => void) {
+  requestAdmins((adminsResponse) => {
+    console.log("Admins:")
+    if (adminsResponse.status === "success") {
+      adminsResponse.data.forEach(logPerson)
+    } else {
+      return callback(new Error(adminsResponse.error))
+    }
+
+    console.log()
+
+    requestUsers((usersResponse) => {
+      console.log("Users:")
+      if (usersResponse.status === "success") {
+        usersResponse.data.forEach(logPerson)
+      } else {
+        return callback(new Error(usersResponse.error))
+      }
+
+      console.log()
+
+      requestCurrentServerTime((serverTimeResponse) => {
+        console.log("Server time:")
+        if (serverTimeResponse.status === "success") {
+          console.log(
+            `   ${new Date(serverTimeResponse.data).toLocaleString()}`
+          )
+        } else {
+          return callback(new Error(serverTimeResponse.error))
+        }
+
+        console.log()
+
+        requestCoffeeMachineQueueLength((coffeeMachineQueueLengthResponse) => {
+          console.log("Coffee machine queue length:")
+          if (coffeeMachineQueueLengthResponse.status === "success") {
+            console.log(`   ${coffeeMachineQueueLengthResponse.data}`)
+          } else {
+            return callback(new Error(coffeeMachineQueueLengthResponse.error))
+          }
+
+          callback(null)
+        })
+      })
+    })
+  })
+}
+
+startTheApp((e: Error | null) => {
+  console.log()
+  if (e) {
+    console.log(
+      `Error: "${e.message}", but it's fine, sometimes errors are inevitable.`
+    )
+  } else {
+    console.log("Success!")
   }
-  if (isUser(person)) {
-    additionalInformation = person.occupation
-  }
-  if (isPowerUser(person)) {
-    additionalInformation = `${person.role}, ${person.occupation}`
-  }
-  console.log(`${person.name}, ${person.age}, ${additionalInformation}`)
-}
-
-console.log("Admins:")
-persons.filter(isAdmin).forEach(logPerson)
-
-console.log()
-
-console.log("Users:")
-persons.filter(isUser).forEach(logPerson)
-
-console.log()
-
-console.log("Power users:")
-persons.filter(isPowerUser).forEach(logPerson)
+})
