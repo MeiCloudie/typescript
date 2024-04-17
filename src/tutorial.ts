@@ -152,3 +152,29 @@ enum Direction {
 // Sử dụng enum
 let playerDirection: Direction = Direction.Up
 console.log(`Hướng di chuyển của người chơi: ${playerDirection}`)
+
+//-----------------
+
+//Type Guards
+console.log("Type Guards")
+
+// Type guard function for checking if a value is a string
+function isString(value: any): value is string {
+  return typeof value === "string"
+}
+
+// Type guard function for checking if a value is a number
+function isNumber(value: any): value is number {
+  return typeof value === "number"
+}
+
+// Sử dụng Type Guards
+let x: any = 10
+
+if (isString(x)) {
+  console.log(`${x} là một chuỗi.`)
+} else if (isNumber(x)) {
+  console.log(`${x} là một số.`)
+} else {
+  console.log("Không xác định được loại của x.")
+}
