@@ -125,3 +125,30 @@ function greet(person: Person) {
 
 const john: Person = { name: "John", age: 30 }
 greet(john)
+
+//-----------------
+
+//Tuples và Enums
+console.log("Tuples")
+
+// Khai báo một tuple
+let employee: [string, number]
+
+// Khởi tạo giá trị cho tuple
+employee = ["John", 30]
+
+// Truy cập các phần tử của tuple
+console.log(`Tên nhân viên: ${employee[0]}, Tuổi: ${employee[1]}`)
+
+console.log("Enums")
+// Khai báo một enum
+enum Direction {
+  Up = "UP",
+  Down = "DOWN",
+  Left = "LEFT",
+  Right = "RIGHT",
+}
+
+// Sử dụng enum
+let playerDirection: Direction = Direction.Up
+console.log(`Hướng di chuyển của người chơi: ${playerDirection}`)
