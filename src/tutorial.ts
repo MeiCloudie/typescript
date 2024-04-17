@@ -242,3 +242,19 @@ animal.makeSound() // Output: Generic Animal makes a sound.
 
 const dog = new Dog("Buddy")
 dog.makeSound() // Output: Buddy barks.
+
+//-----------------
+
+//Fetch Data
+console.log("Fetch Data")
+
+// Sử dụng Fetch để lấy dữ liệu từ một API có sẵn
+fetch("https://jsonplaceholder.typicode.com/posts")
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Dữ liệu từ API:", data)
+    // Xử lý dữ liệu ở đây
+  })
+  .catch((error) => {
+    console.error("Lỗi khi lấy dữ liệu:", error)
+  })
