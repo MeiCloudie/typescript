@@ -30,44 +30,78 @@ const users: User[] = [
 ]
 
 export type ApiResponse<T> =
-  | { status: "success"; data: T }
-  | { status: "error"; error: string }
+  | {
+      status: "success"
+      data: T
+    }
+  | {
+      status: "error"
+      error: string
+    }
 
-export function requestAdmins(
-  callback: (response: ApiResponse<Admin[]>) => void
-) {
-  callback({
-    status: "success",
-    data: admins,
-  })
+type CallbackBasedAsyncFunction<T> = (
+  callback: (response: ApiResponse<T>) => void
+) => void
+type PromiseBasedAsyncFunction<T> = () => Promise<T>
+
+export function promisify<T>(
+  fn: CallbackBasedAsyncFunction<T>
+): PromiseBasedAsyncFunction<T> {
+  return () =>
+    new Promise<T>((resolve, reject) => {
+      fn((response) => {
+        if (response.status === "success") {
+          resolve(response.data)
+        } else {
+          reject(new Error(response.error))
+        }
+      })
+    })
 }
 
-export function requestUsers(
-  callback: (response: ApiResponse<User[]>) => void
-) {
-  callback({
-    status: "success",
-    data: users,
-  })
+type SourceObject<T> = { [K in keyof T]: CallbackBasedAsyncFunction<T[K]> }
+type PromisifiedObject<T> = { [K in keyof T]: PromiseBasedAsyncFunction<T[K]> }
+
+export function promisifyAll<T extends { [key: string]: any }>(
+  obj: SourceObject<T>
+): PromisifiedObject<T> {
+  const result: Partial<PromisifiedObject<T>> = {}
+  for (const key of Object.keys(obj) as (keyof T)[]) {
+    result[key] = promisify(obj[key])
+  }
+  return result as PromisifiedObject<T>
 }
 
-export function requestCurrentServerTime(
-  callback: (response: ApiResponse<number>) => void
-) {
-  callback({
-    status: "success",
-    data: Date.now(),
-  })
+const oldApi = {
+  requestAdmins(callback: (response: ApiResponse<Admin[]>) => void) {
+    callback({
+      status: "success",
+      data: admins,
+    })
+  },
+  requestUsers(callback: (response: ApiResponse<User[]>) => void) {
+    callback({
+      status: "success",
+      data: users,
+    })
+  },
+  requestCurrentServerTime(callback: (response: ApiResponse<number>) => void) {
+    callback({
+      status: "success",
+      data: Date.now(),
+    })
+  },
+  requestCoffeeMachineQueueLength(
+    callback: (response: ApiResponse<number>) => void
+  ) {
+    callback({
+      status: "error",
+      error: "Numeric value has exceeded Number.MAX_SAFE_INTEGER.",
+    })
+  },
 }
 
-export function requestCoffeeMachineQueueLength(
-  callback: (response: ApiResponse<number>) => void
-) {
-  callback({
-    status: "error",
-    error: "Numeric value has exceeded Number.MAX_SAFE_INTEGER.",
-  })
-}
+export const api = promisifyAll(oldApi)
 
 function logPerson(person: Person) {
   console.log(
@@ -77,61 +111,32 @@ function logPerson(person: Person) {
   )
 }
 
-function startTheApp(callback: (error: Error | null) => void) {
-  requestAdmins((adminsResponse) => {
-    console.log("Admins:")
-    if (adminsResponse.status === "success") {
-      adminsResponse.data.forEach(logPerson)
-    } else {
-      return callback(new Error(adminsResponse.error))
-    }
+async function startTheApp() {
+  console.log("Admins:")
+  ;(await api.requestAdmins()).forEach(logPerson)
+  console.log()
 
-    console.log()
+  console.log("Users:")
+  ;(await api.requestUsers()).forEach(logPerson)
+  console.log()
 
-    requestUsers((usersResponse) => {
-      console.log("Users:")
-      if (usersResponse.status === "success") {
-        usersResponse.data.forEach(logPerson)
-      } else {
-        return callback(new Error(usersResponse.error))
-      }
+  console.log("Server time:")
+  console.log(
+    `   ${new Date(await api.requestCurrentServerTime()).toLocaleString()}`
+  )
+  console.log()
 
-      console.log()
-
-      requestCurrentServerTime((serverTimeResponse) => {
-        console.log("Server time:")
-        if (serverTimeResponse.status === "success") {
-          console.log(
-            `   ${new Date(serverTimeResponse.data).toLocaleString()}`
-          )
-        } else {
-          return callback(new Error(serverTimeResponse.error))
-        }
-
-        console.log()
-
-        requestCoffeeMachineQueueLength((coffeeMachineQueueLengthResponse) => {
-          console.log("Coffee machine queue length:")
-          if (coffeeMachineQueueLengthResponse.status === "success") {
-            console.log(`   ${coffeeMachineQueueLengthResponse.data}`)
-          } else {
-            return callback(new Error(coffeeMachineQueueLengthResponse.error))
-          }
-
-          callback(null)
-        })
-      })
-    })
-  })
+  console.log("Coffee machine queue length:")
+  console.log(`   ${await api.requestCoffeeMachineQueueLength()}`)
 }
 
-startTheApp((e: Error | null) => {
-  console.log()
-  if (e) {
+startTheApp().then(
+  () => {
+    console.log("Success!")
+  },
+  (e: Error) => {
     console.log(
       `Error: "${e.message}", but it's fine, sometimes errors are inevitable.`
     )
-  } else {
-    console.log("Success!")
   }
-})
+)
