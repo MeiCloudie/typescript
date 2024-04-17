@@ -108,3 +108,20 @@ type User = { name: Name; age: Age }
 const user: User = { name: "John", age: 30 }
 
 console.log("Thông tin người dùng:", user)
+
+//-----------------
+
+//Interface
+console.log("Interface")
+
+interface Person {
+  name: string
+  age: number
+}
+
+function greet(person: Person) {
+  console.log(`Hello, ${person.name}! You are ${person.age} years old.`)
+}
+
+const john: Person = { name: "John", age: 30 }
+greet(john)
