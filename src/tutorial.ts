@@ -43,3 +43,22 @@ console.log("age: " + age) // Kết quả sẽ là undefined
 // Ví dụ về sử dụng kiểu dữ liệu null
 let username: string | null = null
 console.log("username: " + username) // Kết quả sẽ là null
+
+//-----------------
+
+//Objects và Arrays
+console.log("Objects và Arrays")
+
+// Định nghĩa kiểu dữ liệu cho một đối tượng
+console.log("Objects")
+function inToaDo(toaDo: { x: number; y: number }) {
+  console.log("Giá trị x của tọa độ là " + toaDo.x)
+  console.log("Giá trị y của tọa độ là " + toaDo.y)
+}
+
+inToaDo({ x: 3, y: 7 })
+
+// Định nghĩa kiểu dữ liệu cho một mảng
+console.log("Arrays")
+const soNguyen: number[] = [1, 2, 3]
+console.log(soNguyen)
