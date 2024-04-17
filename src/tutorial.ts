@@ -178,3 +178,33 @@ if (isString(x)) {
 } else {
   console.log("Không xác định được loại của x.")
 }
+
+//-----------------
+
+//Generics
+console.log("Generics")
+
+// Generic function to log the length of an array
+function logLength<T>(arr: T[]): void {
+  console.log(`The length of the array is ${arr.length}`)
+}
+
+// Generic class to hold a value of any type
+class Box<T> {
+  value: T
+
+  constructor(value: T) {
+    this.value = value
+  }
+
+  getValue(): T {
+    return this.value
+  }
+}
+
+// Sử dụng Generics
+const numbers: number[] = [1, 2, 3, 4, 5]
+logLength(numbers)
+
+const boxString = new Box<string>("Hello, TypeScript!")
+console.log(`Value in the box: ${boxString.getValue()}`)
