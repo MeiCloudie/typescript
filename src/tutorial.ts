@@ -208,3 +208,37 @@ logLength(numbers)
 
 const boxString = new Box<string>("Hello, TypeScript!")
 console.log(`Value in the box: ${boxString.getValue()}`)
+
+//-----------------
+
+//Classes
+console.log("Classes")
+
+// Lớp cha
+class Animal {
+  name: string
+
+  constructor(name: string) {
+    this.name = name
+  }
+
+  // Phương thức của lớp cha
+  makeSound(): void {
+    console.log(`${this.name} makes a sound.`)
+  }
+}
+
+// Lớp con kế thừa từ lớp cha
+class Dog extends Animal {
+  // Ghi đè lại phương thức của lớp cha
+  makeSound(): void {
+    console.log(`${this.name} barks.`)
+  }
+}
+
+// Sử dụng Classes
+const animal = new Animal("Generic Animal")
+animal.makeSound() // Output: Generic Animal makes a sound.
+
+const dog = new Dog("Buddy")
+dog.makeSound() // Output: Buddy barks.
