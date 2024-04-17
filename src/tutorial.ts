@@ -95,3 +95,16 @@ calculate = (x: number, y: number): number => {
 }
 
 calculate(3, 4) // Kết quả: Tổng của 3 và 4 là 7
+
+//-----------------
+
+//Type Aliases
+console.log("Type Aliases")
+
+type Name = string
+type Age = number
+type User = { name: Name; age: Age }
+
+const user: User = { name: "John", age: 30 }
+
+console.log("Thông tin người dùng:", user)
