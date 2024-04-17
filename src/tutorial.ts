@@ -62,3 +62,36 @@ inToaDo({ x: 3, y: 7 })
 console.log("Arrays")
 const soNguyen: number[] = [1, 2, 3]
 console.log(soNguyen)
+
+//-----------------
+
+//Functions
+console.log("Functions")
+
+// Function declaration
+function square(x: number): number {
+  const result = x * x
+  console.log("Bình phương của", x, "là", result)
+  return result
+}
+
+square(5) // Kết quả: Bình phương của 5 là 25
+
+// Arrow function
+const squareArrow = (x: number): number => {
+  const result = x * x
+  console.log("Bình phương của", x, "là", result)
+  return result
+}
+
+squareArrow(7) // Kết quả: Bình phương của 7 là 49
+
+// Function type
+let calculate: (x: number, y: number) => number
+calculate = (x: number, y: number): number => {
+  const result = x + y
+  console.log("Tổng của", x, "và", y, "là", result)
+  return result
+}
+
+calculate(3, 4) // Kết quả: Tổng của 3 và 4 là 7
