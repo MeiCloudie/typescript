@@ -42,9 +42,9 @@ Bạn có thể tạo dự án TypeScript với Vite bằng cách thực hiện 
 
 4. **Chạy dự án:** Sau khi tạo dự án thành công, bạn có thể chạy dự án bằng lệnh:
 
-```bash
+    ```bash
    npm run dev
-```
+    ```
 
 Dự án của bạn sẽ được khởi chạy và giao diện sẽ hiển thị trên trình duyệt với đường dẫn http://localhost:5173/.
 Hãy chọn Vite để thao tác làm việc với TypeScript dễ dàng hơn.
