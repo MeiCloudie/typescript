@@ -66,10 +66,11 @@ Tiếp theo, hãy thiết lập các bước sau:
 > Bây giờ, hãy thực hành các kiến thức TypeScript tại tệp tutorial.ts!
 
 ## Hướng dẫn xem tham khảo Code
+1. Nhánh `master`: Phần Source Code khởi tạo dự án lần đầu tiên của Vite với TypeScript.
 
-1. _tutorial.ts:_ Đây là tệp xem các phần kiến thức về cấu trúc và cú pháp cơ bản của TypeScript.
+2. _tutorial.ts_ **(Nhánh `tutorial`):** Đây là tệp xem các phần kiến thức về cấu trúc và cú pháp cơ bản của TypeScript.
 
-2. _test.ts:_ Đây là tệp thực hiện các bài tập thực hành thông qua bộ đề được trích từ [TypeScript Exercises](https://typescript-exercises.github.io/)
+3. _Các file test_ **(Nhánh `test1` -> `test10`):** Đây là tệp thực hiện các bài tập thực hành thông qua bộ đề được trích từ [TypeScript Exercises](https://typescript-exercises.github.io/)
 
 ## Tài liệu tham khảo
 
