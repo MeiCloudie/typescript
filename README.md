@@ -2,6 +2,14 @@
 
 _(Tài liệu thực hành: Nghiên cứu TypeScript qua các bài tập TS)_
 
+## Table of Contents
+
+1. [Giới thiệu](#giới-thiệu)
+2. [Trang web chính thức của TypeScript](#trang-web-chính-thức-của-typescript)
+3. [Tạo và sử dụng dự án với TypeScript và Vite](#tạo-và-sử-dụng-dự-án-với-typescript-và-vite)
+4. [Hướng dẫn xem tham khảo code](#hướng-dẫn-xem-tham-khảo-code)
+5. [Tài liệu tham khảo](#tài-liệu-tham-khảo)
+
 ## Giới thiệu
 
 Chào mừng bạn đến với hành trình "Học TypeScript qua Bài tập TS"! Trong tài liệu này, chúng ta sẽ khám phá TypeScript, ngôn ngữ lập trình tiên tiến mở rộng từ JavaScript, và áp dụng kiến thức thông qua các bài tập thực hành.
@@ -14,7 +22,7 @@ TypeScript giúp nâng cao chất lượng mã nguồn bằng cách tích hợp 
 
 Trang web chính thức của TypeScript là nguồn tham khảo chính xác và đáng tin cậy nhất để tìm hiểu về ngôn ngữ này. Tại đây, bạn có thể tìm hiểu về cú pháp, tính năng, và tài liệu hướng dẫn cần thiết để bắt đầu với TypeScript: [typescriptlang.org](https://www.typescriptlang.org/)
 
-## Tạo và sử dụng dự án với TypeScript
+## Tạo và sử dụng dự án với TypeScript và Vite
 
 > Tại đây, chúng tôi sẽ hướng dẫn bạn sử dụng dự án Vite để làm việc với TypeScript!
 
@@ -49,7 +57,7 @@ Tiếp theo, hãy thiết lập các bước sau:
 
 2. Tại `main.ts`, thêm dòng import tệp `tutorial.ts `
 
-> Bây giờ, hãy thực hành các kiến thức bên dưới tại tệp tutorial.ts!
+> Bây giờ, hãy thực hành các kiến thức TypeScript tại tệp tutorial.ts!
 
 ## Hướng dẫn xem tham khảo Code
 
